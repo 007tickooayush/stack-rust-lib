@@ -1,6 +1,6 @@
 pub struct Node<T> {
     data: T,
-    next: Option<Node<T>>
+    next: Option<Box<Node<T>>>
 }
 
 impl<T> Node<T> {
