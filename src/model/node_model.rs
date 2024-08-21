@@ -1,10 +1,17 @@
 pub struct Node<T> {
     data: T,
-    next: Option<Box<Node<T>>>
+    pub next: Option<Box<Node<T>>>
 }
 
 impl<T> Node<T> {
     pub fn new(data: T) -> Node<T> {
-        unimplemented!("new method not implemented yet");
+        Self {
+            data,
+            next: None,
+        }
+    }
+
+    pub fn get_data(&self) -> &T {
+        &self.data
     }
 }
