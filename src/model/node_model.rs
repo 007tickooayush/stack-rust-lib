@@ -15,4 +15,8 @@ impl<T> Node<T> {
     pub fn get_data(self) -> T {
         self.data
     }
+
+    pub fn peek(&self) -> &T {
+        &self.data
+    }
 }

@@ -1,4 +1,3 @@
-use std::ops::Deref;
 use crate::model::node_model::Node;
 
 pub struct LinkedStack<T> {
@@ -50,7 +49,11 @@ impl<T> LinkedStack<T> {
         // unimplemented!()
     }
 
-    pub fn peek() {
-        unimplemented!("peek method not implemented yet");
+    pub fn peek(&self) -> Option<&T>{
+        if let Some(head) = &self.head {
+            Some(head.peek())
+        } else {
+            None
+        }
     }
 }

@@ -54,7 +54,23 @@ mod tests {
         println!("POP test passed");
     }
 
-    fn pop_helper<T>(mut stack: &mut LinkedStack<T>) -> Node<T> {
+    #[test]
+    fn test_peek() {
+        let peek_element = String::from("Second element");
+        let mut linked_stack = LinkedStack::new();
+        linked_stack.push(String::from("First element"));
+        linked_stack.push(peek_element.clone());
+
+        if let Some(data) = linked_stack.peek() {
+            assert_eq!(data.to_owned(), peek_element);
+        } else {
+            panic!("Stack is empty, cannot peek");
+        }
+
+        println!("PEEK test passed");
+    }
+
+    fn pop_helper<T>(stack: &mut LinkedStack<T>) -> Node<T> {
         if let Some(head) = stack.pop() { head } else {
             panic!("Stack is empty");
         }
