@@ -70,6 +70,21 @@ mod tests {
         println!("PEEK test passed");
     }
 
+    #[test]
+    fn test_flush() {
+        let mut linked_stack = LinkedStack::new();
+        linked_stack.push(1);
+        linked_stack.push(2);
+        linked_stack.push(3);
+
+        linked_stack.flush();
+
+        assert_eq!(linked_stack.size(),0);
+        assert_eq!(linked_stack.is_empty(), true);
+
+        println!("FLUSH test passed");
+    }
+
     fn pop_helper<T>(stack: &mut LinkedStack<T>) -> Node<T> {
         if let Some(head) = stack.pop() { head } else {
             panic!("Stack is empty");

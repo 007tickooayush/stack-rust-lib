@@ -56,4 +56,13 @@ impl<T> LinkedStack<T> {
             None
         }
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.size == 0
+    }
+
+    pub fn flush(&mut self) {
+        self.head = None;
+        self.size = 0;
+    }
 }
