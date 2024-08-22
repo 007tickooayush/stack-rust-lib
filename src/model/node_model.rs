@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Node<T> {
     data: T,
     pub next: Option<Box<Node<T>>>
@@ -11,7 +12,7 @@ impl<T> Node<T> {
         }
     }
 
-    pub fn get_data(&self) -> &T {
-        &self.data
+    pub fn get_data(self) -> T {
+        self.data
     }
 }

@@ -16,6 +16,9 @@ impl<T> LinkedStack<T> {
         }
     }
 
+    pub fn size(&self) -> usize {
+        self.size
+    }
     pub fn push(&mut self, data: T) -> usize {
         let mut new_node = Node::new(data);
 
@@ -34,8 +37,17 @@ impl<T> LinkedStack<T> {
         self.size
     }
 
-    pub fn pop() {
-        unimplemented!("pop method not implemented yet");
+    pub fn pop(&mut self) -> Option<Node<T>> {
+        if let Some(mut head) = self.head.take() {
+            self.head = head.next.take().map(|node| *node);
+            self.size -= 1;
+
+            Some(head)
+        } else {
+            println!("Stack is empty");
+            None
+        }
+        // unimplemented!()
     }
 
     pub fn peek() {
