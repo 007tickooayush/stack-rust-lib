@@ -7,7 +7,7 @@ pub fn add(left: u64, right: u64) -> u64 {
 #[cfg(test)]
 mod tests {
     use crate::model::node_model::Node;
-    use crate::model::stack_model::LinkedStack;
+    use crate::model::linked_stack_model::LinkedStack;
     use super::*;
 
     #[test]
