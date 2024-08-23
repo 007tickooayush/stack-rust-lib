@@ -8,6 +8,7 @@ pub fn add(left: u64, right: u64) -> u64 {
 mod tests {
     use crate::model::node_model::Node;
     use crate::model::linked_stack_model::LinkedStack;
+    use crate::model::vector_stack_model::VectorStack;
     use super::*;
 
     #[test]
@@ -90,4 +91,51 @@ mod tests {
             panic!("Stack is empty");
         }
     }
+
+    #[test]
+    fn test_push_vector() {
+        let mut vector_stack = VectorStack::new();
+
+        vector_stack.push(1);
+        vector_stack.push(2);
+        vector_stack.push(3);
+
+        assert_eq!(vector_stack.size(), 3);
+        println!("PUSH test passed");
+    }
+
+
+    #[test]
+    fn test_pop_vector() {
+        let mut vector_stack = VectorStack::new();
+
+        vector_stack.push(1);
+        vector_stack.push(2);
+
+        if let Some(el) = vector_stack.pop() {
+            assert_eq!(el,2);
+        } else {
+            panic!("Stack is empty");
+        }
+
+        assert_eq!(vector_stack.size(), 1);
+
+        println!("POP test passed");
+    }
+
+    #[test]
+    fn test_peek_vector() {
+        let mut vector_stack = VectorStack::new();
+        let el = String::from("Some data String");
+        vector_stack.push(String::from("Some String data"));
+        vector_stack.push(el);
+
+        if let Some(el) = vector_stack.peek() {
+            let el = el.to_owned();
+            assert_eq!(el, String::from("Some data String"));
+        } else {
+            panic!("Stack is empty");
+        }
+    }
+
 }
