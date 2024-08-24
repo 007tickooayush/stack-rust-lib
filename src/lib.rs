@@ -131,4 +131,17 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_flush_vector() {
+        let mut vector_stack = VectorStack::new();
+        vector_stack.push(1);
+        vector_stack.push(2);
+        vector_stack.push(3);
+        vector_stack.push(4);
+
+        vector_stack.flush();
+
+        assert_eq!(vector_stack.size(), 0);
+    }
+
 }

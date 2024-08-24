@@ -37,4 +37,9 @@ impl<T> VectorStack<T> {
         }
         Some(&self.stack[self.size - 1])
     }
+
+    pub fn flush(&mut self) {
+        self.stack.clear();
+        self.size = 0;
+    }
 }
