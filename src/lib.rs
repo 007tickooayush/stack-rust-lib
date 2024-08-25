@@ -1,13 +1,11 @@
 pub mod model {
     pub mod linked_stack_model;
-    pub mod node_model;
     pub mod vector_stack_model;
 }
 
 #[cfg(test)]
 mod tests {
     use crate::model::linked_stack_model::LinkedStack;
-    use crate::model::node_model::Node;
     use crate::model::vector_stack_model::VectorStack;
 
     #[test]
@@ -27,17 +25,17 @@ mod tests {
         linked_stack.push(2);
         linked_stack.push(3);
 
-        let node = pop_helper(&mut linked_stack);
+        let popped_data = pop_helper(&mut linked_stack);
         // println!("Popped node: {:?}", node);
-        assert_eq!(node.get_data(),3);
+        assert_eq!(popped_data, 3);
 
-        let node = pop_helper(&mut linked_stack);
+        let popped_data = pop_helper(&mut linked_stack);
         // println!("Popped node: {:?}", node);
-        assert_eq!(node.get_data(),2);
+        assert_eq!(popped_data,2);
 
-        let node = pop_helper(&mut linked_stack);
+        let popped_data = pop_helper(&mut linked_stack);
         // println!("Popped node: {:?}", node);
-        assert_eq!(node.get_data(),1);
+        assert_eq!(popped_data,1);
 
         // let node = pop_helper(&mut linked_stack); // THE CODE PANICS HERE
         // println!("Popped node: {:?}", node);
@@ -79,8 +77,10 @@ mod tests {
         println!("FLUSH test passed");
     }
 
-    fn pop_helper<T>(stack: &mut LinkedStack<T>) -> Node<T> {
-        if let Some(head) = stack.pop() { head } else {
+    fn pop_helper<T>(stack: &mut LinkedStack<T>) -> T {
+        if let Some(head) = stack.pop() {
+            head
+        } else {
             panic!("Stack is empty");
         }
     }

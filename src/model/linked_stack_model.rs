@@ -1,5 +1,3 @@
-use crate::model::node_model::Node;
-
 pub struct LinkedStack<T> {
     head: Option<Node<T>>,
     size: usize,
@@ -36,12 +34,12 @@ impl<T> LinkedStack<T> {
         self.size
     }
 
-    pub fn pop(&mut self) -> Option<Node<T>> {
+    pub fn pop(&mut self) -> Option<T> {
         if let Some(mut head) = self.head.take() {
             self.head = head.next.take().map(|node| *node);
             self.size -= 1;
 
-            Some(head)
+            Some(head.data)
         } else {
             println!("Stack is empty");
             None
@@ -64,5 +62,25 @@ impl<T> LinkedStack<T> {
     pub fn flush(&mut self) {
         self.head = None;
         self.size = 0;
+    }
+}
+
+
+#[derive(Debug)]
+pub struct Node<T> {
+    pub data: T,
+    pub next: Option<Box<Node<T>>>
+}
+
+impl<T> Node<T> {
+    pub fn new(data: T) -> Node<T> {
+        Self {
+            data,
+            next: None,
+        }
+    }
+
+    pub fn peek(&self) -> &T {
+        &self.data
     }
 }
