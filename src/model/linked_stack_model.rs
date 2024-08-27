@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 pub struct LinkedStack<T> {
     head: Option<Node<T>>,
     size: usize,
@@ -23,7 +25,7 @@ impl<T> LinkedStack<T> {
             self.head = Some(new_node);
         } else {
             if let Some(head) = self.head.take() {
-                new_node.next = Some(Box::new(head));
+                new_node.next = Some(Arc::new(head));
                 self.head = Some(new_node);
             } else {
                 self.head = Some(new_node);
@@ -35,8 +37,14 @@ impl<T> LinkedStack<T> {
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        if let Some(mut head) = self.head.take() {
-            self.head = head.next.take().map(|node| *node);
+        if let Some(head) = self.head.take() {
+            // self.head = head.next.take()
+            self.head = match head.next {
+                Some(head) => {
+                    Some(Arc::try_unwrap(head).unwrap_or_else(|_| panic!("Can not perform the pop operation")))
+                },
+                None => None
+            };
             self.size -= 1;
 
             Some(head.data)
@@ -69,7 +77,7 @@ impl<T> LinkedStack<T> {
 #[derive(Debug)]
 pub struct Node<T> {
     pub data: T,
-    pub next: Option<Box<Node<T>>>
+    pub next: Option<Arc<Node<T>>>
 }
 
 impl<T> Node<T> {
