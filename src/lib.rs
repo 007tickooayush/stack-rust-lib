@@ -3,8 +3,12 @@ pub mod model {
     pub mod vector_stack_model;
 }
 
+pub mod core {
+    pub mod core_stack_model;
+}
 #[cfg(test)]
 mod tests {
+    use crate::core::core_stack_model::Stack;
     use crate::model::linked_stack_model::LinkedStack;
     use crate::model::vector_stack_model::VectorStack;
 

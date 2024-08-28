@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use crate::core::core_stack_model::Stack;
 
 pub struct LinkedStack<T> {
     head: Option<Node<T>>,
@@ -6,19 +7,19 @@ pub struct LinkedStack<T> {
 }
 
 
-impl<T> LinkedStack<T> {
+impl<T> Stack<T> for LinkedStack<T> {
 
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             head: None,
             size: 0
         }
     }
 
-    pub fn size(&self) -> usize {
+    fn size(&self) -> usize {
         self.size
     }
-    pub fn push(&mut self, data: T) -> usize {
+    fn push(&mut self, data: T) -> usize {
         let mut new_node = Node::new(data);
 
         if self.head.is_none() {
@@ -36,7 +37,7 @@ impl<T> LinkedStack<T> {
         self.size
     }
 
-    pub fn pop(&mut self) -> Option<T> {
+    fn pop(&mut self) -> Option<T> {
         if let Some(head) = self.head.take() {
             // self.head = head.next.take()
             self.head = match head.next {
@@ -55,7 +56,7 @@ impl<T> LinkedStack<T> {
         // unimplemented!()
     }
 
-    pub fn peek(&self) -> Option<&T>{
+    fn peek(&self) -> Option<&T>{
         if let Some(head) = &self.head {
             Some(head.peek())
         } else {
@@ -63,11 +64,11 @@ impl<T> LinkedStack<T> {
         }
     }
 
-    pub fn is_empty(&self) -> bool {
+    fn is_empty(&self) -> bool {
         self.size == 0
     }
 
-    pub fn flush(&mut self) {
+    fn flush(&mut self) {
         self.head = None;
         self.size = 0;
     }

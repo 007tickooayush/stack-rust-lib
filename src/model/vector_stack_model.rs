@@ -1,27 +1,29 @@
+use crate::core::core_stack_model::Stack;
+
 pub struct VectorStack<T> {
     stack : Vec<T>,
     size: usize,
 }
 
-impl<T> VectorStack<T> {
-    pub fn new() -> Self {
+impl<T> Stack<T> for VectorStack<T> {
+    fn new() -> Self {
         Self {
             stack : Vec::new(),
             size: 0
         }
     }
 
-    pub fn size(&self) -> usize {
+    fn size(&self) -> usize {
         self.size
     }
 
-    pub fn push(&mut self, data: T) -> usize {
+    fn push(&mut self, data: T) -> usize {
         self.stack.push(data);
         self.size += 1;
         self.size
     }
 
-    pub fn pop(&mut self) -> Option<T> {
+    fn pop(&mut self) -> Option<T> {
         if self.size == 0 {
             println!("Stack is empty");
             return None;
@@ -31,14 +33,18 @@ impl<T> VectorStack<T> {
     }
 
 
-    pub fn peek(&self) -> Option<&T>{
+    fn peek(&self) -> Option<&T>{
         if self.size == 0 {
             return None;
         }
         Some(&self.stack[self.size - 1])
     }
 
-    pub fn flush(&mut self) {
+    fn is_empty(&self) -> bool {
+        self.size == 0
+    }
+
+    fn flush(&mut self) {
         self.stack.clear();
         self.size = 0;
     }
