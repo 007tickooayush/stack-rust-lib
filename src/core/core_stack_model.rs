@@ -5,7 +5,7 @@ where T: Clone {
     fn size(&self) -> usize;
     fn push(&mut self, data: T) -> usize;
     fn pop(&mut self) -> StackResult<T>;
-    fn peek(&mut self) -> StackResult<T>;
+    fn peek(&mut self) -> StackResult<&T>;
     fn is_empty(&self) -> bool;
     fn flush(&mut self);
 }

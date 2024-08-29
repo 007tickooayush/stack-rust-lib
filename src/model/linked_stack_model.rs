@@ -56,8 +56,8 @@ where T: Clone {
         }
     }
 
-    fn peek(&mut self) -> StackResult<T>{
-        if let Some(head) = self.head.take() {
+    fn peek(&mut self) -> StackResult<&T>{
+        if let Some(head) = &self.head {
             Ok(head.peek())
         } else {
             Err(StackError::StackEmpty)
@@ -89,7 +89,7 @@ impl<T> Node<T> {
         }
     }
 
-    pub fn peek(self) -> T {
-        self.data
+    pub fn peek(&self) -> &T {
+        &self.data
     }
 }

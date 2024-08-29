@@ -39,11 +39,11 @@ where T: Clone {
     }
 
 
-    fn peek(&mut self) -> StackResult<T> {
+    fn peek(&mut self) -> StackResult<&T> {
         if self.size == 0 {
             Err(StackError::StackEmpty)
         } else {
-            Ok(self.stack.last().cloned().unwrap())
+            Ok(self.stack.last().unwrap())
         }
     }
 

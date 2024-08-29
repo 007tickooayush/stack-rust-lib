@@ -5,6 +5,7 @@ pub mod model {
 
 pub mod core {
     pub mod core_stack_model;
+    pub mod error;
 }
 #[cfg(test)]
 mod tests {
@@ -32,13 +33,14 @@ mod tests {
         let popped_data = pop_helper(&mut linked_stack);
         // println!("Popped node: {:?}", node);
         assert_eq!(popped_data, 3);
+        assert_eq!(linked_stack.size(),2);
 
         let popped_data = pop_helper(&mut linked_stack);
-        // println!("Popped node: {:?}", node);
+        println!("Popped node: {:?}", popped_data);
         assert_eq!(popped_data,2);
 
         let popped_data = pop_helper(&mut linked_stack);
-        // println!("Popped node: {:?}", node);
+        println!("Popped node: {:?}", popped_data);
         assert_eq!(popped_data,1);
 
         // let node = pop_helper(&mut linked_stack); // THE CODE PANICS HERE
@@ -57,7 +59,7 @@ mod tests {
         linked_stack.push(String::from("First element"));
         linked_stack.push(peek_element.clone());
 
-        let peeked_data = linked_stack.peek().unwrap();
+        let peeked_data = linked_stack.peek().unwrap().to_owned();
         assert_eq!(peeked_data, peek_element);
         // if let Some(data) = linked_stack.peek() {
         //     assert_eq!(data.to_owned(), peek_element);
@@ -128,7 +130,7 @@ mod tests {
         vector_stack.push(String::from("Some String data"));
         vector_stack.push(el.clone());
 
-        let peeked_data = vector_stack.peek().unwrap();
+        let peeked_data = vector_stack.peek().unwrap().to_owned();
         assert_eq!(peeked_data, el);
     }
 
