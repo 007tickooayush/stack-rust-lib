@@ -57,11 +57,13 @@ mod tests {
         linked_stack.push(String::from("First element"));
         linked_stack.push(peek_element.clone());
 
-        if let Some(data) = linked_stack.peek() {
-            assert_eq!(data.to_owned(), peek_element);
-        } else {
-            panic!("Stack is empty, cannot peek");
-        }
+        let peeked_data = linked_stack.peek().unwrap();
+        assert_eq!(peeked_data, peek_element);
+        // if let Some(data) = linked_stack.peek() {
+        //     assert_eq!(data.to_owned(), peek_element);
+        // } else {
+        //     panic!("Stack is empty, cannot peek");
+        // }
 
         println!("PEEK test passed");
     }
@@ -81,12 +83,9 @@ mod tests {
         println!("FLUSH test passed");
     }
 
-    fn pop_helper<T>(stack: &mut LinkedStack<T>) -> T {
-        if let Some(head) = stack.pop() {
-            head
-        } else {
-            panic!("Stack is empty");
-        }
+    fn pop_helper<T>(stack: &mut LinkedStack<T>) -> T
+    where T: Clone {
+        stack.pop().unwrap()
     }
 
     #[test]
@@ -109,11 +108,13 @@ mod tests {
         vector_stack.push(1);
         vector_stack.push(2);
 
-        if let Some(el) = vector_stack.pop() {
-            assert_eq!(el,2);
-        } else {
-            panic!("Stack is empty");
-        }
+        let popped_data = vector_stack.pop().unwrap();
+        assert_eq!(popped_data,2);
+        // if let Some(el) = vector_stack.pop() {
+        //     assert_eq!(el,2);
+        // } else {
+        //     panic!("Stack is empty");
+        // }
 
         assert_eq!(vector_stack.size(), 1);
 
@@ -125,14 +126,10 @@ mod tests {
         let mut vector_stack = VectorStack::new();
         let el = String::from("Some data String");
         vector_stack.push(String::from("Some String data"));
-        vector_stack.push(el);
+        vector_stack.push(el.clone());
 
-        if let Some(el) = vector_stack.peek() {
-            let el = el.to_owned();
-            assert_eq!(el, String::from("Some data String"));
-        } else {
-            panic!("Stack is empty");
-        }
+        let peeked_data = vector_stack.peek().unwrap();
+        assert_eq!(peeked_data, el);
     }
 
     #[test]
@@ -146,6 +143,22 @@ mod tests {
         vector_stack.flush();
 
         assert_eq!(vector_stack.size(), 0);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_pop_vector_panic() {
+        let mut vector_stack = VectorStack::new();
+        vector_stack.push("Some Data");
+        vector_stack.pop().unwrap();
+
+        match vector_stack.pop() {
+            Ok(_) => {},
+            Err(e) => {
+                println!("ERROR OCCURRED: {}", e);
+                panic!("Panic test passed");
+            }
+        }
     }
 
 }

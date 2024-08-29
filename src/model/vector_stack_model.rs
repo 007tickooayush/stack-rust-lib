@@ -1,15 +1,17 @@
-use crate::core::core_stack_model::Stack;
+use crate::core::core_stack_model::{Stack, StackError, StackResult};
 
+#[derive(Clone)]
 pub struct VectorStack<T> {
-    stack : Vec<T>,
+    stack: Vec<T>,
     size: usize,
 }
 
-impl<T> Stack<T> for VectorStack<T> {
+impl<T> Stack<T> for VectorStack<T>
+where T: Clone {
     fn new() -> Self {
         Self {
-            stack : Vec::new(),
-            size: 0
+            stack: Vec::new(),
+            size: 0,
         }
     }
 
@@ -23,21 +25,26 @@ impl<T> Stack<T> for VectorStack<T> {
         self.size
     }
 
-    fn pop(&mut self) -> Option<T> {
+    fn pop(&mut self) -> StackResult<T> {
         if self.size == 0 {
-            println!("Stack is empty");
-            return None;
+            Err(StackError::StackUnderflow)
+        } else {
+            self.size -= 1;
+            if let Some(top) = self.stack.pop() {
+                Ok(top)
+            } else {
+                Err(StackError::StackEmpty)
+            }
         }
-        self.size -= 1;
-        self.stack.pop()
     }
 
 
-    fn peek(&self) -> Option<&T>{
+    fn peek(&mut self) -> StackResult<T> {
         if self.size == 0 {
-            return None;
+            Err(StackError::StackEmpty)
+        } else {
+            Ok(self.stack.last().cloned().unwrap())
         }
-        Some(&self.stack[self.size - 1])
     }
 
     fn is_empty(&self) -> bool {

@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use crate::core::core_stack_model::Stack;
+use crate::core::core_stack_model::{Stack, StackError, StackResult};
 
 pub struct LinkedStack<T> {
     head: Option<Node<T>>,
@@ -7,7 +7,8 @@ pub struct LinkedStack<T> {
 }
 
 
-impl<T> Stack<T> for LinkedStack<T> {
+impl<T> Stack<T> for LinkedStack<T>
+where T: Clone {
 
     fn new() -> Self {
         Self {
@@ -37,30 +38,29 @@ impl<T> Stack<T> for LinkedStack<T> {
         self.size
     }
 
-    fn pop(&mut self) -> Option<T> {
+    fn pop(&mut self) -> StackResult<T> {
         if let Some(head) = self.head.take() {
-            // self.head = head.next.take()
             self.head = match head.next {
-                Some(head) => {
-                    Some(Arc::try_unwrap(head).unwrap_or_else(|_| panic!("Can not perform the pop operation")))
+                Some(next) => {
+                    match Arc::try_unwrap(next) {
+                        Ok(next_node) => Some(next_node),
+                        Err(_) => return Err(StackError::StackError("Failed to unwrap Arc, Can not perform POP operation"))
+                    }
                 },
                 None => None
             };
             self.size -= 1;
-
-            Some(head.data)
+            Ok(head.data)
         } else {
-            println!("Stack is empty");
-            None
+            Err(StackError::StackEmpty)
         }
-        // unimplemented!()
     }
 
-    fn peek(&self) -> Option<&T>{
-        if let Some(head) = &self.head {
-            Some(head.peek())
+    fn peek(&mut self) -> StackResult<T>{
+        if let Some(head) = self.head.take() {
+            Ok(head.peek())
         } else {
-            None
+            Err(StackError::StackEmpty)
         }
     }
 
@@ -89,7 +89,7 @@ impl<T> Node<T> {
         }
     }
 
-    pub fn peek(&self) -> &T {
-        &self.data
+    pub fn peek(self) -> T {
+        self.data
     }
 }
